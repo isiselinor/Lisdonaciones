@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🤝 Donaciones — Transparencia del fondo</title>
+<style>
+  :root{
+    --bg:#0f172a; --card:#1e293b; --card2:#243349; --txt:#e2e8f0; --muted:#94a3b8;
+    --accent:#22c55e; --accent2:#16a34a; --blue:#3b82f6; --line:#334155;
+    --warn:#f59e0b; --radius:16px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#0b1220,#0f172a);color:var(--txt);
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
+  .wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px}
+  header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin:8px 0 22px}
+  h1{font-size:1.5rem;margin:0;display:flex;align-items:center;gap:10px}
+  .sub{color:var(--muted);font-size:.92rem;margin-top:4px}
+  .btn-donar{background:var(--accent);color:#06210f;font-weight:700;border:none;border-radius:999px;
+    padding:14px 26px;font-size:1.05rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+    box-shadow:0 8px 24px rgba(34,197,94,.35);transition:transform .1s ease}
+  .btn-donar:hover{transform:translateY(-1px)}
+  .grid{display:grid;gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+  .global{background:linear-gradient(135deg,#0e3b2b,#0b2c4a);border:1px solid #14532d}
+  .global h2{margin:0 0 12px;font-size:1.05rem;color:#cbd5e1;font-weight:600}
+  .global-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:6px 0;border-bottom:1px dashed rgba(148,163,184,.25)}
+  .global-row:last-child{border-bottom:none}
+  .global-row .lbl{color:#cbd5e1}
+  .global-row .val{font-variant-numeric:tabular-nums;font-weight:600}
+  .saldo{margin-top:10px;padding-top:12px;border-top:2px solid rgba(34,197,94,.4)}
+  .saldo .lbl{font-size:1.05rem;font-weight:700}
+  .saldo .val{font-size:1.6rem;font-weight:800;color:var(--accent)}
+  h2.section{font-size:1.1rem;margin:30px 0 12px;display:flex;align-items:center;gap:8px}
+  .coins{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .coin{background:var(--card2)}
+  .coin .code{font-size:.8rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+  .coin .main{font-size:1.5rem;font-weight:800;margin:6px 0;font-variant-numeric:tabular-nums}
+  .coin .usd{color:var(--accent);font-weight:600}
+  .coin .cnt{color:var(--muted);font-size:.85rem;margin-top:6px}
+  .search-box{display:flex;gap:8px;margin-top:6px}
+  .search-box input{flex:1;background:#0b1220;border:1px solid var(--line);color:var(--txt);
+    border-radius:10px;padding:12px 14px;font-size:1rem}
+  .search-box button{background:var(--blue);border:none;color:#fff;border-radius:10px;padding:0 18px;cursor:pointer;font-weight:600}
+  .result{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;background:var(--card2)}
+  .result .nm{font-weight:700}
+  .result .meta{color:var(--muted);font-size:.88rem;margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 14px}
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:700}
+  .ok{background:rgba(34,197,94,.15);color:#4ade80}
+  .pend{background:rgba(245,158,11,.15);color:#fbbf24}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.03em}
+  td.usd{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.ref{color:var(--muted);font-size:.8rem}
+  .gasto-total{text-align:right;font-weight:800;font-size:1.1rem;margin-top:12px;color:var(--accent)}
+  .muted{color:var(--muted)}
+  .loading{color:var(--muted);padding:10px 0}
+  footer{margin-top:46px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;text-align:center}
+  footer a{color:#7dd3fc;text-decoration:none}
+  .err{background:rgba(239,68,68,.12);border:1px solid #7f1d1d;color:#fca5a5;padding:12px 14px;border-radius:12px;margin:10px 0}
+  @media(max-width:560px){ h1{font-size:1.25rem} .saldo .val{font-size:1.35rem} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>🤝 <span>Fondo de Donaciones</span></h1>
+      <div class="sub">Transparencia del fondo · todo se consolida en dólares</div>
+    </div>
+    <a class="btn-donar" id="btnDonar" href="#" target="_blank" rel="noopener">💚 Quiero donar</a>
+  </header>
+
+  <!-- TOTAL GLOBAL EN DÓLARES -->
+  <div class="card global">
+    <h2>Total global en dólares</h2>
+    <div class="global-row"><span class="lbl">Total recaudado</span><span class="val" id="g-raised">—</span></div>
+    <div class="global-row"><span class="lbl">− Egresos</span><span class="val" id="g-spent">—</span></div>
+    <div class="global-row saldo"><span class="lbl">= Saldo global</span><span class="val" id="g-balance">—</span></div>
+    <div class="sub" id="g-note" style="margin-top:10px"></div>
+  </div>
+
+  <!-- RECAUDADO POR MONEDA -->
+  <h2 class="section">💱 Recaudado por moneda</h2>
+  <div class="coins" id="coins"><div class="loading">Cargando…</div></div>
+
+  <!-- BUSCADOR -->
+  <h2 class="section">🔎 Buscá tu donación</h2>
+  <div class="card">
+    <div class="muted" style="margin-bottom:6px">Escribí tu nombre completo para ver el estado de tu aporte.</div>
+    <div class="search-box">
+      <input id="q" type="text" placeholder="Nombre completo…" autocomplete="off" />
+      <button id="btnBuscar">Buscar</button>
+    </div>
+    <div id="searchResults"></div>
+  </div>
+
+  <!-- GASTOS -->
+  <h2 class="section">🧾 En qué se gastó el dinero</h2>
+  <div class="card">
+    <div id="gastos"><div class="loading">Cargando…</div></div>
+  </div>
+
+  <footer>
+    <div>Responsable de la recaudación / dudas:
+      <a href="https://www.instagram.com/listheproducer" target="_blank" rel="noopener">@listheproducer</a>
+    </div>
+    <div style="margin-top:8px">Sistema creado por
+      <a href="https://www.instagram.com/isiselinor/" target="_blank" rel="noopener">Isis Elinor</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* ================== CONFIGURACIÓN ================== */
+// 1) Pegá acá la URL de tu Apps Script publicado como app web (termina en /exec).
+var API_URL = "PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT_/exec";
+// 2) Link del formulario público para donar.
+var FORM_URL = "https://forms.gle/R8m5dUpwm4v6Xgwr6";
+/* ================================================== */
+
+document.getElementById('btnDonar').href = FORM_URL;
+
+// ---- Cliente JSONP ----
+var jsonpId = 0;
+function jsonp(action, params){
+  return new Promise(function(resolve, reject){
+    if (!API_URL || API_URL.indexOf('PEGA_AQUI') === 0){
+      reject(new Error('Falta configurar API_URL en index.html.')); return;
+    }
+    var cbName = '__cb_' + (++jsonpId) + '_' + Date.now();
+    var qs = ['action=' + encodeURIComponent(action), 'callback=' + cbName];
+    if (params) for (var k in params) qs.push(encodeURIComponent(k) + '=' + encodeURIComponent(params[k]));
+    var url = API_URL + (API_URL.indexOf('?') >= 0 ? '&' : '?') + qs.join('&');
+    var script = document.createElement('script');
+    var done = false;
+    var timer = setTimeout(function(){ if(!done){ cleanup(); reject(new Error('Tiempo de espera agotado.')); } }, 15000);
+    function cleanup(){ done = true; clearTimeout(timer); delete window[cbName]; if(script.parentNode) script.parentNode.removeChild(script); }
+    window[cbName] = function(data){ cleanup(); resolve(data); };
+    script.onerror = function(){ cleanup(); reject(new Error('No se pudo conectar con la API.')); };
+    script.src = url;
+    document.body.appendChild(script);
+  });
+}
+
+// ---- Formato ----
+function fmtUSD(n){
+  return '$' + (Number(n)||0).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' USD';
+}
+function fmtNum(n){
+  return (Number(n)||0).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function fmtMoneda(n, code){ return fmtNum(n) + ' ' + (code||''); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function showErr(where, msg){
+  document.getElementById(where).innerHTML = '<div class="err">⚠️ ' + esc(msg) + '</div>';
+}
+
+// ---- Cargar balance + monedas ----
+function cargarBalance(){
+  jsonp('balance').then(function(d){
+    if (d.error) throw new Error(d.error);
+    document.getElementById('g-raised').textContent = fmtUSD(d.totalRaisedUSD);
+    document.getElementById('g-spent').textContent = '− ' + fmtUSD(d.totalSpentUSD);
+    document.getElementById('g-balance').textContent = fmtUSD(d.balanceUSD);
+
+    // Tarjetas por moneda (solo recaudado)
+    var coins = document.getElementById('coins');
+    var withData = (d.byCurrency||[]).filter(function(c){ return c.count > 0 || c.total > 0; });
+    if (!withData.length){ coins.innerHTML = '<div class="muted">Todavía no hay donaciones verificadas.</div>'; return; }
+    coins.innerHTML = withData.map(function(c){
+      return '<div class="card coin">'
+        + '<div class="code">' + esc(c.label || c.currency) + '</div>'
+        + '<div class="main">' + fmtMoneda(c.total, c.currency) + '</div>'
+        + '<div class="usd">≈ ' + fmtUSD(c.totalUSD) + '</div>'
+        + '<div class="cnt">' + c.count + ' donación' + (c.count===1?'':'es') + ' verificada' + (c.count===1?'':'s') + '</div>'
+        + '</div>';
+    }).join('');
+
+    // Nota de tasas
+    var rates = d.rates || {};
+    var parts = Object.keys(rates).map(function(k){ return k + ' ' + rates[k]; });
+    document.getElementById('g-note').textContent = 'Tasas usadas (unidades por 1 USD): ' + parts.join(' · ');
+  }).catch(function(e){
+    showErr('coins', e.message);
+    document.getElementById('g-raised').textContent = '—';
+    document.getElementById('g-spent').textContent = '—';
+    document.getElementById('g-balance').textContent = '—';
+  });
+}
+
+// ---- Cargar gastos ----
+function cargarGastos(){
+  jsonp('gastos').then(function(d){
+    if (d.error) throw new Error(d.error);
+    var cont = document.getElementById('gastos');
+    var items = d.items || [];
+    if (!items.length){ cont.innerHTML = '<div class="muted">Todavía no hay gastos cargados.</div>'; return; }
+    var rows = items.map(function(g){
+      return '<tr>'
+        + '<td>' + esc(g.fecha||'') + '</td>'
+        + '<td>' + esc(g.comercio||'') + (g.categoria?('<div class="ref">'+esc(g.categoria)+'</div>'):'') + '</td>'
+        + '<td class="usd">' + fmtUSD(g.montoUSD)
+        +   '<div class="ref">' + fmtMoneda(g.montoOriginal, g.moneda) + '</div></td>'
+        + '</tr>';
+    }).join('');
+    cont.innerHTML =
+      '<table><thead><tr><th>Fecha</th><th>Comercio / Categoría</th><th>Gasto (USD)</th></tr></thead>'
+      + '<tbody>' + rows + '</tbody></table>'
+      + '<div class="gasto-total">Total gastado: ' + fmtUSD(d.totalUSD) + '</div>';
+  }).catch(function(e){ showErr('gastos', e.message); });
+}
+
+// ---- Buscador ----
+function buscar(){
+  var name = document.getElementById('q').value.trim();
+  var cont = document.getElementById('searchResults');
+  if (!name){ cont.innerHTML = '<div class="muted" style="margin-top:10px">Escribí un nombre para buscar.</div>'; return; }
+  cont.innerHTML = '<div class="loading">Buscando…</div>';
+  jsonp('search', {name:name}).then(function(d){
+    if (d.error) throw new Error(d.error);
+    var res = d.results || [];
+    if (!res.length){ cont.innerHTML = '<div class="muted" style="margin-top:10px">No se encontraron donaciones para “' + esc(name) + '”.</div>'; return; }
+    cont.innerHTML = res.map(function(r){
+      var badge = r.verificada
+        ? '<span class="badge ok">✓ Verificada</span>'
+        : '<span class="badge pend">⏳ Pendiente</span>';
+      return '<div class="result">'
+        + '<div class="nm">' + esc(r.nombre) + ' ' + badge + '</div>'
+        + '<div class="meta">'
+        +   '<span>💳 ' + esc(r.metodo||'—') + '</span>'
+        +   '<span>💰 ' + fmtMoneda(r.monto, r.moneda) + '</span>'
+        +   '<span>📅 ' + esc(r.fecha||'—') + '</span>'
+        +   '<span># ' + esc(r.codigo||'—') + '</span>'
+        + '</div></div>';
+    }).join('');
+  }).catch(function(e){ showErr('searchResults', e.message); });
+}
+
+document.getElementById('btnBuscar').addEventListener('click', buscar);
+document.getElementById('q').addEventListener('keydown', function(e){ if(e.key==='Enter') buscar(); });
+
+// Inicial
+cargarBalance();
+cargarGastos();
+</script>
+</body>
+</html>

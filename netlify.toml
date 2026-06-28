@@ -1,0 +1,14 @@
+# Configuración de Netlify para el sitio de donaciones (estático).
+# El sitio es solo index.html, así que la raíz de publicación es la carpeta actual.
+
+[build]
+  publish = "."
+  command = ""
+
+# Seguridad básica de cabeceras.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
