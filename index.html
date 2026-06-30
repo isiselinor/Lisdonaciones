@@ -3,250 +3,449 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🤝 Donaciones — Transparencia del fondo</title>
+<title>🫂 Venezuela te necesita</title>
 <style>
   :root{
-    --bg:#0f172a; --card:#1e293b; --card2:#243349; --txt:#e2e8f0; --muted:#94a3b8;
-    --accent:#22c55e; --accent2:#16a34a; --blue:#3b82f6; --line:#334155;
-    --warn:#f59e0b; --radius:16px;
+    /* Paleta */
+    --navy:#1f235e; --mauve:#c38eb4; --pink:#e1cbd7; --blue:#86a8cf;
+    --slate:#26425a; --ink:#16222e;
+    /* Derivados */
+    --text:#22304a; --muted:#5b6b86; --line:rgba(38,66,90,.14);
+    --glass:rgba(255,255,255,.55); --glass-strong:rgba(255,255,255,.72);
+    --shadow:0 18px 50px rgba(31,35,94,.18);
+    --radius:26px;
+    --accent:var(--slate); --accent-2:var(--navy);
   }
   *{box-sizing:border-box}
-  body{margin:0;background:linear-gradient(180deg,#0b1220,#0f172a);color:var(--txt);
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
-  .wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px}
-  header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin:8px 0 22px}
-  h1{font-size:1.5rem;margin:0;display:flex;align-items:center;gap:10px}
-  .sub{color:var(--muted);font-size:.92rem;margin-top:4px}
-  .btn-donar{background:var(--accent);color:#06210f;font-weight:700;border:none;border-radius:999px;
-    padding:14px 26px;font-size:1.05rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
-    box-shadow:0 8px 24px rgba(34,197,94,.35);transition:transform .1s ease}
-  .btn-donar:hover{transform:translateY(-1px)}
-  .grid{display:grid;gap:14px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
-  .global{background:linear-gradient(135deg,#0e3b2b,#0b2c4a);border:1px solid #14532d}
-  .global h2{margin:0 0 12px;font-size:1.05rem;color:#cbd5e1;font-weight:600}
-  .global-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:6px 0;border-bottom:1px dashed rgba(148,163,184,.25)}
-  .global-row:last-child{border-bottom:none}
-  .global-row .lbl{color:#cbd5e1}
-  .global-row .val{font-variant-numeric:tabular-nums;font-weight:600}
-  .saldo{margin-top:10px;padding-top:12px;border-top:2px solid rgba(34,197,94,.4)}
-  .saldo .lbl{font-size:1.05rem;font-weight:700}
-  .saldo .val{font-size:1.6rem;font-weight:800;color:var(--accent)}
-  h2.section{font-size:1.1rem;margin:30px 0 12px;display:flex;align-items:center;gap:8px}
-  .coins{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-  .coin{background:var(--card2)}
-  .coin .code{font-size:.8rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
-  .coin .main{font-size:1.5rem;font-weight:800;margin:6px 0;font-variant-numeric:tabular-nums}
-  .coin .usd{color:var(--accent);font-weight:600}
-  .coin .cnt{color:var(--muted);font-size:.85rem;margin-top:6px}
-  .search-box{display:flex;gap:8px;margin-top:6px}
-  .search-box input{flex:1;background:#0b1220;border:1px solid var(--line);color:var(--txt);
-    border-radius:10px;padding:12px 14px;font-size:1rem}
-  .search-box button{background:var(--blue);border:none;color:#fff;border-radius:10px;padding:0 18px;cursor:pointer;font-weight:600}
-  .result{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;background:var(--card2)}
-  .result .nm{font-weight:700}
-  .result .meta{color:var(--muted);font-size:.88rem;margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 14px}
-  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:700}
-  .ok{background:rgba(34,197,94,.15);color:#4ade80}
-  .pend{background:rgba(245,158,11,.15);color:#fbbf24}
-  table{width:100%;border-collapse:collapse;font-size:.92rem}
-  th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--muted);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.03em}
-  td.usd{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+    background:
+      radial-gradient(1200px 600px at 12% -8%, #9fb9da 0%, rgba(159,185,218,0) 55%),
+      radial-gradient(1100px 700px at 110% 8%, #d9b6cd 0%, rgba(217,182,205,0) 50%),
+      linear-gradient(160deg, #86a8cf 0%, #b9c2d8 32%, #e1cbd7 64%, #c38eb4 100%);
+    background-attachment:fixed; min-height:100vh;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:22px 18px 120px}
+
+  /* ---------- Glass card base ---------- */
+  .card{
+    background:var(--glass); border:1px solid rgba(255,255,255,.6);
+    border-radius:var(--radius); box-shadow:var(--shadow);
+    backdrop-filter:blur(22px) saturate(150%); -webkit-backdrop-filter:blur(22px) saturate(150%);
+    padding:22px;
+  }
+
+  /* ---------- Top bar ---------- */
+  header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin:6px 0 22px}
+  .brand h1{font-size:1.55rem;margin:0;display:flex;align-items:center;gap:10px;letter-spacing:-.02em;color:#1c2c46}
+  .brand .sub{color:var(--muted);font-size:.94rem;margin-top:3px}
+  .top-actions{display:flex;align-items:center;gap:10px}
+
+  /* Segmented language switch (estilo Apple) */
+  .seg{display:inline-flex;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);
+    border-radius:999px;padding:3px;backdrop-filter:blur(10px)}
+  .seg button{border:none;background:transparent;color:var(--slate);font-weight:600;font-size:.86rem;
+    padding:7px 14px;border-radius:999px;cursor:pointer;transition:.2s}
+  .seg button.active{background:var(--slate);color:#fff;box-shadow:0 4px 12px rgba(38,66,90,.3)}
+
+  /* Donate buttons */
+  .btn-donar{
+    background:linear-gradient(135deg,var(--slate),var(--navy));
+    color:#fff;font-weight:700;border:none;border-radius:999px;
+    padding:14px 26px;font-size:1.02rem;cursor:pointer;text-decoration:none;
+    display:inline-flex;align-items:center;gap:9px;letter-spacing:-.01em;
+    box-shadow:0 10px 28px rgba(31,35,94,.35); transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn-donar:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(31,35,94,.42)}
+  .btn-donar:active{transform:translateY(0)}
+  .btn-donar.big{padding:20px 44px;font-size:1.28rem;border-radius:999px;gap:11px}
+  .btn-donar.big:hover{transform:translateY(-3px) scale(1.02)}
+
+  /* ---------- Global total ---------- */
+  .global h2{margin:0 0 14px;font-size:1.02rem;color:#33425c;font-weight:600;letter-spacing:-.01em}
+  .global-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .global-row:last-of-type{border-bottom:none}
+  .global-row .lbl{color:#3c4a63}
+  .global-row .val{font-variant-numeric:tabular-nums;font-weight:600;color:#22304a}
+  .saldo{margin-top:8px;padding-top:14px;border-top:2px solid rgba(38,66,90,.22)}
+  .saldo .lbl{font-size:1.06rem;font-weight:700}
+  .saldo .val{font-size:1.7rem;font-weight:800;color:var(--slate);letter-spacing:-.02em}
+  .rates-note{color:var(--muted);font-size:.82rem;margin-top:12px}
+
+  /* ---------- Section heading ---------- */
+  h2.section{font-size:1.18rem;margin:34px 4px 14px;display:flex;align-items:center;gap:9px;
+    letter-spacing:-.02em;color:#1c2c46}
+
+  /* ---------- Pasos ---------- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .step{position:relative;overflow:hidden}
+  .step .num{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;background:linear-gradient(135deg,var(--mauve),var(--blue));
+    box-shadow:0 6px 16px rgba(38,66,90,.25);margin-bottom:12px}
+  .step h3{margin:0 0 6px;font-size:1.02rem;color:#22304a;letter-spacing:-.01em}
+  .step p{margin:0;color:var(--muted);font-size:.9rem}
+  .steps-cta{display:flex;justify-content:center;margin-top:18px}
+
+  /* ---------- Coins ---------- */
+  .coins{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  .coin .code{font-size:.78rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  .coin .main{font-size:1.55rem;font-weight:800;margin:7px 0 2px;font-variant-numeric:tabular-nums;color:#22304a;letter-spacing:-.02em}
+  .coin .usd{color:var(--slate);font-weight:700}
+  .coin .cnt{color:var(--muted);font-size:.84rem;margin-top:8px}
+
+  /* ---------- Search ---------- */
+  .search-box{display:flex;gap:9px;margin-top:8px}
+  .search-box input{flex:1;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.8);
+    color:var(--text);border-radius:14px;padding:13px 15px;font-size:1rem;outline:none}
+  .search-box input::placeholder{color:#8694ab}
+  .search-box input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(134,168,207,.25)}
+  .search-box button{background:var(--slate);border:none;color:#fff;border-radius:14px;padding:0 20px;cursor:pointer;font-weight:700}
+  .result{border:1px solid rgba(255,255,255,.7);border-radius:16px;padding:13px 15px;margin-top:11px;background:var(--glass-strong)}
+  .result .nm{font-weight:700;color:#22304a}
+  .result .meta{color:var(--muted);font-size:.87rem;margin-top:5px;display:flex;flex-wrap:wrap;gap:5px 14px}
+  .badge{display:inline-block;padding:3px 11px;border-radius:999px;font-size:.77rem;font-weight:700;margin-left:6px}
+  .ok{background:rgba(38,66,90,.12);color:#26425a}
+  .pend{background:rgba(195,142,180,.22);color:#9a5b86}
+
+  /* ---------- Table ---------- */
+  table{width:100%;border-collapse:collapse;font-size:.93rem}
+  th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em}
+  td.usd{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;color:#22304a}
   td.ref{color:var(--muted);font-size:.8rem}
-  .gasto-total{text-align:right;font-weight:800;font-size:1.1rem;margin-top:12px;color:var(--accent)}
+  .gasto-total{text-align:right;font-weight:800;font-size:1.12rem;margin-top:14px;color:var(--slate)}
+
   .muted{color:var(--muted)}
-  .loading{color:var(--muted);padding:10px 0}
-  footer{margin-top:46px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;text-align:center}
-  footer a{color:#7dd3fc;text-decoration:none}
-  .err{background:rgba(239,68,68,.12);border:1px solid #7f1d1d;color:#fca5a5;padding:12px 14px;border-radius:12px;margin:10px 0}
-  @media(max-width:560px){ h1{font-size:1.25rem} .saldo .val{font-size:1.35rem} }
+  .loading{color:var(--muted);padding:8px 0}
+  .err{background:rgba(195,142,180,.18);border:1px solid rgba(154,91,134,.45);color:#8a3f6a;
+    padding:12px 14px;border-radius:14px;margin:10px 0}
+
+  footer{margin-top:46px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;text-align:center}
+  footer a{color:var(--slate);text-decoration:none;font-weight:600}
+
+  /* ---------- Floating donate (se mueve con el scroll) ---------- */
+  .fab-wrap{position:fixed;left:50%;bottom:22px;z-index:50;transition:transform .15s ease-out;will-change:transform;pointer-events:none}
+  .fab{pointer-events:auto;animation:bob 3.2s ease-in-out infinite;
+    background:linear-gradient(135deg,var(--mauve),var(--slate));
+    color:#fff;font-weight:800;border:none;border-radius:999px;padding:15px 28px;font-size:1.05rem;
+    text-decoration:none;display:inline-flex;align-items:center;gap:9px;letter-spacing:-.01em;
+    box-shadow:0 14px 38px rgba(31,35,94,.45);transition:transform .12s ease}
+  .fab:hover{transform:scale(1.04)}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  @media (prefers-reduced-motion:reduce){.fab{animation:none}}
+
+  @media(max-width:640px){
+    .brand h1{font-size:1.3rem} .saldo .val{font-size:1.4rem}
+    .steps{grid-template-columns:1fr}
+    .btn-donar{padding:12px 20px;font-size:.95rem}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
+  <!-- ===== TOP ===== -->
   <header class="top">
-    <div>
-      <h1>🤝 <span>Fondo de Donaciones</span></h1>
-      <div class="sub">Transparencia del fondo · todo se consolida en dólares</div>
+    <div class="brand">
+      <h1>🫂 <span data-i18n="title">VENEZUELA TE NECESITA</span></h1>
+      <div class="sub" data-i18n="subtitle">Realiza tu aporte</div>
     </div>
-    <a class="btn-donar" id="btnDonar" href="#" target="_blank" rel="noopener">💚 Quiero donar</a>
+    <div class="top-actions">
+      <div class="seg" role="group" aria-label="Idioma">
+        <button id="lang-es" class="active" onclick="setLang('es')">ES</button>
+        <button id="lang-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
   </header>
 
-  <!-- TOTAL GLOBAL EN DÓLARES -->
+  <!-- ===== TOTAL GLOBAL ===== -->
   <div class="card global">
-    <h2>Total global en dólares</h2>
-    <div class="global-row"><span class="lbl">Total recaudado</span><span class="val" id="g-raised">—</span></div>
-    <div class="global-row"><span class="lbl">− Egresos</span><span class="val" id="g-spent">—</span></div>
-    <div class="global-row saldo"><span class="lbl">= Saldo global</span><span class="val" id="g-balance">—</span></div>
-    <div class="sub" id="g-note" style="margin-top:10px"></div>
+    <h2 data-i18n="globalTitle">Total global en dólares</h2>
+    <div class="global-row"><span class="lbl" data-i18n="raised">Total recaudado</span><span class="val" id="g-raised">—</span></div>
+    <div class="global-row"><span class="lbl" data-i18n="spent">− Egresos</span><span class="val" id="g-spent">—</span></div>
+    <div class="global-row saldo"><span class="lbl" data-i18n="balance">= Saldo global</span><span class="val" id="g-balance">—</span></div>
+    <div class="rates-note" id="g-note"></div>
   </div>
 
-  <!-- RECAUDADO POR MONEDA -->
-  <h2 class="section">💱 Recaudado por moneda</h2>
-  <div class="coins" id="coins"><div class="loading">Cargando…</div></div>
+  <!-- ===== CÓMO DONAR EN 3 PASOS ===== -->
+  <h2 class="section">📝 <span data-i18n="howTitle">Cómo donar en 3 pasos</span></h2>
+  <div class="steps">
+    <div class="card step">
+      <div class="num">1</div>
+      <h3 data-i18n="step1h">Tocá “Quiero donar”</h3>
+      <p data-i18n="step1p">Abrí el formulario y elegí tu método: Mercado Pago, Zelle, Binance, Pago Móvil…</p>
+    </div>
+    <div class="card step">
+      <div class="num">2</div>
+      <h3 data-i18n="step2h">Hacé tu aporte</h3>
+      <p data-i18n="step2p">Realizá la transferencia y guardá el comprobante con el número o código de la operación.</p>
+    </div>
+    <div class="card step">
+      <div class="num">3</div>
+      <h3 data-i18n="step3h">Registrá la donación</h3>
+      <p data-i18n="step3p">Completá tus datos en el formulario. La verificamos y suma al fondo.</p>
+    </div>
+  </div>
+  <div class="steps-cta">
+    <a class="btn-donar big" id="btnDonar2" href="#" target="_blank" rel="noopener">
+      💚 <span data-i18n="donate">Quiero donar</span>
+    </a>
+  </div>
 
-  <!-- BUSCADOR -->
-  <h2 class="section">🔎 Buscá tu donación</h2>
+  <!-- ===== RECAUDADO POR MONEDA ===== -->
+  <h2 class="section">💱 <span data-i18n="byCoinTitle">Recaudado por moneda</span></h2>
+  <div class="coins" id="coins"><div class="loading" data-i18n="loading">Cargando…</div></div>
+
+  <!-- ===== BUSCADOR ===== -->
+  <h2 class="section">🔎 <span data-i18n="searchTitle">Buscá tu donación</span></h2>
   <div class="card">
-    <div class="muted" style="margin-bottom:6px">Escribí tu nombre completo para ver el estado de tu aporte.</div>
+    <div class="muted" style="margin-bottom:7px" data-i18n="searchHint">Escribí tu nombre completo para ver el estado de tu aporte.</div>
     <div class="search-box">
-      <input id="q" type="text" placeholder="Nombre completo…" autocomplete="off" />
-      <button id="btnBuscar">Buscar</button>
+      <input id="q" type="text" autocomplete="off" />
+      <button id="btnBuscar" data-i18n="searchBtn">Buscar</button>
     </div>
     <div id="searchResults"></div>
   </div>
 
-  <!-- GASTOS -->
-  <h2 class="section">🧾 En qué se gastó el dinero</h2>
-  <div class="card">
-    <div id="gastos"><div class="loading">Cargando…</div></div>
-  </div>
+  <!-- ===== GASTOS ===== -->
+  <h2 class="section">🧾 <span data-i18n="spentTitle">En qué se gastó el dinero</span></h2>
+  <div class="card"><div id="gastos"><div class="loading" data-i18n="loading">Cargando…</div></div></div>
 
   <footer>
-    <div>Responsable de la recaudación / dudas:
+    <div><span data-i18n="responsible">Responsable de la recaudación / dudas:</span>
       <a href="https://www.instagram.com/listheproducer" target="_blank" rel="noopener">@listheproducer</a>
     </div>
-    <div style="margin-top:8px">Sistema creado por
+    <div style="margin-top:8px"><span data-i18n="createdBy">Sistema creado por</span>
       <a href="https://www.instagram.com/isiselinor/" target="_blank" rel="noopener">Isis Elinor</a>
     </div>
   </footer>
+</div>
 
+<!-- ===== FLOATING DONATE ===== -->
+<div class="fab-wrap" id="fabWrap">
+  <a class="fab" id="fab" href="#" target="_blank" rel="noopener">
+    💚 <span data-i18n="donate">Quiero donar</span>
+  </a>
 </div>
 
 <script>
 /* ================== CONFIGURACIÓN ================== */
-// 1) URL de tu Apps Script publicado como app web (termina en /exec).
 var API_URL = "https://script.google.com/macros/s/AKfycbzlfF4g3rgDt-cy2sUdP0n3O4ft1FQiLDgtWxlCt1z5Gl21AceoGNGa3TpcSStjvsHE/exec";
-// 2) Link del formulario público para donar.
 var FORM_URL = "https://forms.gle/R8m5dUpwm4v6Xgwr6";
 /* ================================================== */
 
-document.getElementById('btnDonar').href = FORM_URL;
+/* ---------- i18n ---------- */
+var T = {
+  es:{
+    title:"VENEZUELA TE NECESITA",
+    subtitle:"Realiza tu aporte",
+    donate:"Quiero donar",
+    globalTitle:"Total global en dólares",
+    raised:"Total recaudado", spent:"− Egresos", balance:"= Saldo global",
+    howTitle:"Cómo donar en 3 pasos",
+    step1h:"Tocá “Quiero donar”", step1p:"Abrí el formulario y elegí tu método: Mercado Pago, Zelle, Binance, Pago Móvil…",
+    step2h:"Hacé tu aporte", step2p:"Realizá la transferencia y guardá el comprobante con el número o código de la operación.",
+    step3h:"Registrá la donación", step3p:"Completá tus datos en el formulario. La verificamos y suma al fondo.",
+    byCoinTitle:"Recaudado por moneda",
+    searchTitle:"Buscá tu donación", searchHint:"Escribí tu nombre completo para ver el estado de tu aporte.",
+    searchBtn:"Buscar", searchPlaceholder:"Nombre completo…",
+    spentTitle:"En qué se gastó el dinero",
+    responsible:"Responsable de la recaudación / dudas:", createdBy:"Sistema creado por",
+    loading:"Cargando…",
+    noDonations:"Todavía no hay donaciones verificadas.",
+    noExpenses:"Todavía no hay gastos cargados.",
+    ratesUsed:"Tasas usadas (unidades por 1 USD):",
+    donation:"donación", donations:"donaciones", verifiedF:"verificada", verifiedFs:"verificadas",
+    thDate:"Fecha", thMerchant:"Comercio / Categoría", thSpent:"Gasto (USD)",
+    totalSpent:"Total gastado:",
+    verifiedBadge:"✓ Verificada", pendingBadge:"⏳ Pendiente",
+    searchEmpty:"Escribí un nombre para buscar.", searching:"Buscando…",
+    noResults:"No se encontraron donaciones para",
+    errApi:"No se pudo conectar con la API."
+  },
+  en:{
+    title:"VENEZUELA NEEDS YOU",
+    subtitle:"Make your contribution",
+    donate:"I want to donate",
+    globalTitle:"Global total in dollars",
+    raised:"Total raised", spent:"− Expenses", balance:"= Global balance",
+    howTitle:"How to donate in 3 steps",
+    step1h:"Tap “I want to donate”", step1p:"Open the form and choose your method: Mercado Pago, Zelle, Binance, Pago Móvil…",
+    step2h:"Make your contribution", step2p:"Send the transfer and keep the receipt with the operation number or code.",
+    step3h:"Register the donation", step3p:"Fill in your details in the form. We verify it and it adds to the fund.",
+    byCoinTitle:"Raised by currency",
+    searchTitle:"Find your donation", searchHint:"Type your full name to check the status of your contribution.",
+    searchBtn:"Search", searchPlaceholder:"Full name…",
+    spentTitle:"What the money was spent on",
+    responsible:"Fundraising lead / questions:", createdBy:"System created by",
+    loading:"Loading…",
+    noDonations:"No verified donations yet.",
+    noExpenses:"No expenses recorded yet.",
+    ratesUsed:"Rates used (units per 1 USD):",
+    donation:"donation", donations:"donations", verifiedF:"verified", verifiedFs:"verified",
+    thDate:"Date", thMerchant:"Merchant / Category", thSpent:"Spent (USD)",
+    totalSpent:"Total spent:",
+    verifiedBadge:"✓ Verified", pendingBadge:"⏳ Pending",
+    searchEmpty:"Type a name to search.", searching:"Searching…",
+    noResults:"No donations found for",
+    errApi:"Could not connect to the API."
+  }
+};
+var lang = 'es';
+function t(k){ return (T[lang] && T[lang][k]) || k; }
 
-// ---- Cliente JSONP ----
+var state = { balance:null, gastos:null, search:null };
+
+function setLang(l){
+  lang = (l === 'en') ? 'en' : 'es';
+  document.documentElement.lang = lang;
+  try{ localStorage.setItem('donaLang', lang); }catch(e){}
+  document.getElementById('lang-es').classList.toggle('active', lang==='es');
+  document.getElementById('lang-en').classList.toggle('active', lang==='en');
+  // textos estáticos
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k = el.getAttribute('data-i18n'); if (T[lang][k] != null) el.textContent = T[lang][k];
+  });
+  document.getElementById('q').placeholder = t('searchPlaceholder');
+  // re-render dinámico desde lo ya cargado
+  if (state.balance) renderBalance(state.balance);
+  if (state.gastos) renderGastos(state.gastos);
+  if (state.search) renderSearch(state.search);
+}
+
+/* ---------- Cliente JSONP ---------- */
 var jsonpId = 0;
 function jsonp(action, params){
   return new Promise(function(resolve, reject){
-    if (!API_URL || API_URL.indexOf('PEGA_AQUI') === 0){
-      reject(new Error('Falta configurar API_URL en index.html.')); return;
-    }
+    if (!API_URL || API_URL.indexOf('PEGA_AQUI') === 0){ reject(new Error('Falta configurar API_URL.')); return; }
     var cbName = '__cb_' + (++jsonpId) + '_' + Date.now();
     var qs = ['action=' + encodeURIComponent(action), 'callback=' + cbName];
     if (params) for (var k in params) qs.push(encodeURIComponent(k) + '=' + encodeURIComponent(params[k]));
     var url = API_URL + (API_URL.indexOf('?') >= 0 ? '&' : '?') + qs.join('&');
-    var script = document.createElement('script');
-    var done = false;
-    var timer = setTimeout(function(){ if(!done){ cleanup(); reject(new Error('Tiempo de espera agotado.')); } }, 15000);
-    function cleanup(){ done = true; clearTimeout(timer); delete window[cbName]; if(script.parentNode) script.parentNode.removeChild(script); }
+    var script = document.createElement('script'); var done = false;
+    var timer = setTimeout(function(){ if(!done){ cleanup(); reject(new Error(t('errApi'))); } }, 15000);
+    function cleanup(){ done=true; clearTimeout(timer); delete window[cbName]; if(script.parentNode) script.parentNode.removeChild(script); }
     window[cbName] = function(data){ cleanup(); resolve(data); };
-    script.onerror = function(){ cleanup(); reject(new Error('No se pudo conectar con la API.')); };
-    script.src = url;
-    document.body.appendChild(script);
+    script.onerror = function(){ cleanup(); reject(new Error(t('errApi'))); };
+    script.src = url; document.body.appendChild(script);
   });
 }
 
-// ---- Formato ----
-function fmtUSD(n){
-  return '$' + (Number(n)||0).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' USD';
-}
-function fmtNum(n){
-  return (Number(n)||0).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
-}
+/* ---------- Formato ---------- */
+function localeOf(){ return lang === 'en' ? 'en-US' : 'es-AR'; }
+function fmtUSD(n){ return '$' + (Number(n)||0).toLocaleString(localeOf(),{minimumFractionDigits:2,maximumFractionDigits:2}) + ' USD'; }
+function fmtNum(n){ return (Number(n)||0).toLocaleString(localeOf(),{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function fmtMoneda(n, code){ return fmtNum(n) + ' ' + (code||''); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
-function showErr(where, msg){
-  document.getElementById(where).innerHTML = '<div class="err">⚠️ ' + esc(msg) + '</div>';
-}
+function showErr(where,msg){ document.getElementById(where).innerHTML = '<div class="err">⚠️ ' + esc(msg) + '</div>'; }
 
-// ---- Cargar balance + monedas ----
-function cargarBalance(){
-  jsonp('balance').then(function(d){
-    if (d.error) throw new Error(d.error);
-    document.getElementById('g-raised').textContent = fmtUSD(d.totalRaisedUSD);
-    document.getElementById('g-spent').textContent = '− ' + fmtUSD(d.totalSpentUSD);
-    document.getElementById('g-balance').textContent = fmtUSD(d.balanceUSD);
-
-    // Tarjetas por moneda (solo recaudado)
-    var coins = document.getElementById('coins');
-    var withData = (d.byCurrency||[]).filter(function(c){ return c.count > 0 || c.total > 0; });
-    if (!withData.length){ coins.innerHTML = '<div class="muted">Todavía no hay donaciones verificadas.</div>'; return; }
+/* ---------- Render: balance + monedas ---------- */
+function renderBalance(d){
+  document.getElementById('g-raised').textContent = fmtUSD(d.totalRaisedUSD);
+  document.getElementById('g-spent').textContent = '− ' + fmtUSD(d.totalSpentUSD);
+  document.getElementById('g-balance').textContent = fmtUSD(d.balanceUSD);
+  var coins = document.getElementById('coins');
+  var withData = (d.byCurrency||[]).filter(function(c){ return c.count>0 || c.total>0; });
+  if (!withData.length){ coins.innerHTML = '<div class="muted">' + t('noDonations') + '</div>'; }
+  else {
     coins.innerHTML = withData.map(function(c){
+      var cnt = c.count, dWord = cnt===1 ? t('donation') : t('donations'), vWord = cnt===1 ? t('verifiedF') : t('verifiedFs');
       return '<div class="card coin">'
         + '<div class="code">' + esc(c.label || c.currency) + '</div>'
         + '<div class="main">' + fmtMoneda(c.total, c.currency) + '</div>'
         + '<div class="usd">≈ ' + fmtUSD(c.totalUSD) + '</div>'
-        + '<div class="cnt">' + c.count + ' donación' + (c.count===1?'':'es') + ' verificada' + (c.count===1?'':'s') + '</div>'
+        + '<div class="cnt">' + cnt + ' ' + dWord + ' ' + vWord + '</div>'
         + '</div>';
     }).join('');
-
-    // Nota de tasas
-    var rates = d.rates || {};
-    var parts = Object.keys(rates).map(function(k){ return k + ' ' + rates[k]; });
-    document.getElementById('g-note').textContent = 'Tasas usadas (unidades por 1 USD): ' + parts.join(' · ');
-  }).catch(function(e){
-    showErr('coins', e.message);
-    document.getElementById('g-raised').textContent = '—';
-    document.getElementById('g-spent').textContent = '—';
-    document.getElementById('g-balance').textContent = '—';
-  });
+  }
+  var rates = d.rates || {};
+  var parts = Object.keys(rates).map(function(k){ return k + ' ' + rates[k]; });
+  document.getElementById('g-note').textContent = parts.length ? (t('ratesUsed') + ' ' + parts.join(' · ')) : '';
 }
 
-// ---- Cargar gastos ----
+/* ---------- Render: gastos ---------- */
+function renderGastos(d){
+  var cont = document.getElementById('gastos');
+  var items = d.items || [];
+  if (!items.length){ cont.innerHTML = '<div class="muted">' + t('noExpenses') + '</div>'; return; }
+  var rows = items.map(function(g){
+    return '<tr>'
+      + '<td>' + esc(g.fecha||'') + '</td>'
+      + '<td>' + esc(g.comercio||'') + (g.categoria?('<div class="ref">'+esc(g.categoria)+'</div>'):'') + '</td>'
+      + '<td class="usd">' + fmtUSD(g.montoUSD) + '<div class="ref">' + fmtMoneda(g.montoOriginal,g.moneda) + '</div></td>'
+      + '</tr>';
+  }).join('');
+  cont.innerHTML =
+    '<table><thead><tr><th>' + t('thDate') + '</th><th>' + t('thMerchant') + '</th><th>' + t('thSpent') + '</th></tr></thead>'
+    + '<tbody>' + rows + '</tbody></table>'
+    + '<div class="gasto-total">' + t('totalSpent') + ' ' + fmtUSD(d.totalUSD) + '</div>';
+}
+
+/* ---------- Render: búsqueda ---------- */
+function renderSearch(d){
+  var cont = document.getElementById('searchResults');
+  var res = d.results || [];
+  if (!res.length){ cont.innerHTML = '<div class="muted" style="margin-top:10px">' + t('noResults') + ' “' + esc(d.query||'') + '”.</div>'; return; }
+  cont.innerHTML = res.map(function(r){
+    var badge = r.verificada ? '<span class="badge ok">'+t('verifiedBadge')+'</span>' : '<span class="badge pend">'+t('pendingBadge')+'</span>';
+    return '<div class="result">'
+      + '<div class="nm">' + esc(r.nombre) + badge + '</div>'
+      + '<div class="meta">'
+      +   '<span>💳 ' + esc(r.metodo||'—') + '</span>'
+      +   '<span>💰 ' + fmtMoneda(r.monto, r.moneda) + '</span>'
+      +   '<span>📅 ' + esc(r.fecha||'—') + '</span>'
+      +   '<span># ' + esc(r.codigo||'—') + '</span>'
+      + '</div></div>';
+  }).join('');
+}
+
+/* ---------- Cargar ---------- */
+function cargarBalance(){
+  jsonp('balance').then(function(d){ if(d.error) throw new Error(d.error); state.balance=d; renderBalance(d); })
+    .catch(function(e){ showErr('coins', e.message);
+      document.getElementById('g-raised').textContent='—';
+      document.getElementById('g-spent').textContent='—';
+      document.getElementById('g-balance').textContent='—'; });
+}
 function cargarGastos(){
-  jsonp('gastos').then(function(d){
-    if (d.error) throw new Error(d.error);
-    var cont = document.getElementById('gastos');
-    var items = d.items || [];
-    if (!items.length){ cont.innerHTML = '<div class="muted">Todavía no hay gastos cargados.</div>'; return; }
-    var rows = items.map(function(g){
-      return '<tr>'
-        + '<td>' + esc(g.fecha||'') + '</td>'
-        + '<td>' + esc(g.comercio||'') + (g.categoria?('<div class="ref">'+esc(g.categoria)+'</div>'):'') + '</td>'
-        + '<td class="usd">' + fmtUSD(g.montoUSD)
-        +   '<div class="ref">' + fmtMoneda(g.montoOriginal, g.moneda) + '</div></td>'
-        + '</tr>';
-    }).join('');
-    cont.innerHTML =
-      '<table><thead><tr><th>Fecha</th><th>Comercio / Categoría</th><th>Gasto (USD)</th></tr></thead>'
-      + '<tbody>' + rows + '</tbody></table>'
-      + '<div class="gasto-total">Total gastado: ' + fmtUSD(d.totalUSD) + '</div>';
-  }).catch(function(e){ showErr('gastos', e.message); });
+  jsonp('gastos').then(function(d){ if(d.error) throw new Error(d.error); state.gastos=d; renderGastos(d); })
+    .catch(function(e){ showErr('gastos', e.message); });
 }
-
-// ---- Buscador ----
 function buscar(){
   var name = document.getElementById('q').value.trim();
   var cont = document.getElementById('searchResults');
-  if (!name){ cont.innerHTML = '<div class="muted" style="margin-top:10px">Escribí un nombre para buscar.</div>'; return; }
-  cont.innerHTML = '<div class="loading">Buscando…</div>';
-  jsonp('search', {name:name}).then(function(d){
-    if (d.error) throw new Error(d.error);
-    var res = d.results || [];
-    if (!res.length){ cont.innerHTML = '<div class="muted" style="margin-top:10px">No se encontraron donaciones para “' + esc(name) + '”.</div>'; return; }
-    cont.innerHTML = res.map(function(r){
-      var badge = r.verificada
-        ? '<span class="badge ok">✓ Verificada</span>'
-        : '<span class="badge pend">⏳ Pendiente</span>';
-      return '<div class="result">'
-        + '<div class="nm">' + esc(r.nombre) + ' ' + badge + '</div>'
-        + '<div class="meta">'
-        +   '<span>💳 ' + esc(r.metodo||'—') + '</span>'
-        +   '<span>💰 ' + fmtMoneda(r.monto, r.moneda) + '</span>'
-        +   '<span>📅 ' + esc(r.fecha||'—') + '</span>'
-        +   '<span># ' + esc(r.codigo||'—') + '</span>'
-        + '</div></div>';
-    }).join('');
-  }).catch(function(e){ showErr('searchResults', e.message); });
+  if(!name){ cont.innerHTML = '<div class="muted" style="margin-top:10px">' + t('searchEmpty') + '</div>'; return; }
+  cont.innerHTML = '<div class="loading">' + t('searching') + '</div>';
+  jsonp('search',{name:name}).then(function(d){ if(d.error) throw new Error(d.error); state.search=d; renderSearch(d); })
+    .catch(function(e){ showErr('searchResults', e.message); });
 }
 
+/* ---------- Botones donar ---------- */
+['btnDonar2','fab'].forEach(function(id){ document.getElementById(id).href = FORM_URL; });
 document.getElementById('btnBuscar').addEventListener('click', buscar);
 document.getElementById('q').addEventListener('keydown', function(e){ if(e.key==='Enter') buscar(); });
 
-// Inicial
-cargarBalance();
-cargarGastos();
+/* ---------- Botón flotante que se mueve con el scroll ---------- */
+var fabWrap = document.getElementById('fabWrap');
+function moveFab(){
+  var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+  var sway = Math.sin(y / 220) * 120;   // vaivén horizontal según el scroll
+  fabWrap.style.transform = 'translateX(calc(-50% + ' + sway.toFixed(1) + 'px))';
+}
+window.addEventListener('scroll', moveFab, {passive:true});
+window.addEventListener('resize', moveFab);
+moveFab();
+
+/* ---------- Init ---------- */
+(function init(){
+  var saved; try{ saved = localStorage.getItem('donaLang'); }catch(e){}
+  setLang(saved === 'en' ? 'en' : 'es');
+  cargarBalance();
+  cargarGastos();
+})();
 </script>
 </body>
 </html>
